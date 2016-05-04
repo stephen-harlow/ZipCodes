@@ -22,8 +22,8 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-
-app.use(express.static(path.join(__dirname, 'public')));
+var publicPath = express.static(path.join(__dirname, 'public'));
+app.use(publicPath);
 
 // place your handlers here
 app.get('/', function(req, res) {
