@@ -31,7 +31,7 @@ app.get('/', function(req, res) {
 });
 // place your handlers here
 app.get('/test', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  res.sendFile('public/index.html');
 });
 
 
