@@ -23,7 +23,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-app.use(express.static(publicPath));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // place your handlers here
 app.get('/', function(req, res) {
