@@ -17,7 +17,7 @@ nodemon({
   execMap: {
     js: 'node'
   },
-  script: path.join(__dirname, 'backend/server'),
+  script: path.join(__dirname, 'server'),
   ignore: [],
   watch: !isProduction ? ['backend/*'] : false,
   ext: 'js'
