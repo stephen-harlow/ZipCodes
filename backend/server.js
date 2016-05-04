@@ -27,11 +27,11 @@ app.use(publicPath);
 
 // place your handlers here
 app.get('/', function(req, res) {
-  res.sendFile('./frontend/public/index.html');
+  res.sendFile('/frontend/public/index.html');
 });
 // place your handlers here
 app.get('/test', function(req, res) {
-  res.sendFile('./frontend/public/index.html');
+  res.sendFile('/frontend/public/index.html');
 });
 
 
