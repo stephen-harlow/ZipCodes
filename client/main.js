@@ -46,10 +46,10 @@ angular.module('app', ['ngRoute', 'autocomplete'])
 
   $scope.list = [0,1,2];
   $scope.select = "TX";
-  $scope.state = MyService.doStuff().data;
+  $scope.state = MyService.doStuff();
   $scope.obj = $scope.state["TX"];
   $scope.items2 = $scope.state["TX"];
-  
+
   $scope.warn = function () {
     $scope.obj = [];
     $scope.count = 0;
