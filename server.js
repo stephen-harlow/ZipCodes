@@ -6,10 +6,10 @@ var express = require('express');
 var path = require('path');
 
 var app = express();
+app.set('trust proxy',true);
 
 app.use(express.static('client', {redirect: false}));
 
-app.set('trust proxy',true);
 app.route('/test')
 	.get(function(req, res) {
 		res.sendFile('client/index.html', { root: __dirname });
@@ -20,13 +20,9 @@ app.route('/')
 	});
 
 var port = process.env.PORT || 3000;
-
-http
-    .createServer( app ).listen( port )
-    .on( 'error', function( error ){
-       console.log( "Error: \n" + error.message );
-       console.log( error.stack );
-    });
+app.listen(port, function () {
+  console.log('Application running at http://localhost:'+port);
+});
 
 // console.log('Serving app on port ');
 console.log('Application running at http://localhost:'+port);
