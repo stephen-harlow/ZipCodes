@@ -15,7 +15,7 @@ angular.module('app', [
             .when('/test', {templateUrl: 'test.html', controller: function() {
                 console.log('On /test.');
             }})
-            .when('/', {templateUrl: 'main.html', controller: 'MyTestCtrl'})
+            .when('/main', {templateUrl: 'main.html', controller: 'MyTestCtrl'})
             .otherwise('/');
     })
     .controller('MyTestCtrl', function ($scope) {

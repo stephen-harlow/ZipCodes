@@ -1,6 +1,17 @@
 <div>
-    <h1>This is just a {{val}}</h1>
-    <button ng-click="clicked()">Click me!</button>
-    <span>You clicked {{counter}} times</span>
-    <a href="/test">test me!</a>
+  <h1>This is just a {{val}}</h1>
+  <button ng-click="clicked()">Click me!</button>
+  <span>You clicked {{counter}} times</span>
+  <a href="/test">test me!</a>
+  <a class="btn btn-primary" role="button" data-toggle="collapse" href="#test" aria-expanded="false" aria-controls="collapseExample">
+    Search Zips
+  </a>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Button with data-target
+  </button>
+  <div class="collapse" id="collapseExample">
+    <div class="well">
+      ...
+    </div>
+  </div>
 </div>

@@ -1,6 +1,5 @@
-  yo yo
   Listing {{state.length}} Zip Codes!
-  {{output}}
+  {{list.length}}
   {{status}}
   <div class="row">
 
@@ -26,12 +25,12 @@
   </div>
 
   <div class="container-fluid">
-    <div ng-repeat="item in obj" ng-if="$index % 3 == 0" class="row"  ng-init="listIndex = $index">
+    <div ng-repeat="item in obj" ng-if="$index % 3 == 0" class="row"  ng-init="listIndex = $index; ite = lister($index)">
       <!-- <div class="row"> -->
-        <div ng-repeat="n in list" class="col-md-4">
+        <div ng-repeat="n in ite" class="col-md-4" ng-init="index = $index">
               <button type="button" class="btn btn-default btn-block" >
               <div class="row">
-                <div class="col-md-3"><span class="badge"> {{obj[$parent.$index+n].code}}</span></div>
+                <div class="col-md-3"><span class="badge">{{obj[$parent.$index+n].code}}</span></div>
                 <div class="col-md-8"><p style="margin-bottom:4px; word-wrap:break-word;" class = "text-right">{{obj[$parent.$index+n].name}}, {{obj[$parent.$index+n].state}}</p></div>
               </div>
             </button>

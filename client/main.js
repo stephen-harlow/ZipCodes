@@ -43,8 +43,17 @@ angular.module('app', ['ngRoute', 'autocomplete'])
     $scope.obj = $scope.state[$scope.abbrev[index]];
     $scope.items2 = $scope.state[$scope.abbrev[index]];
   }
+  $scope.lister = function (b) {
+    var list = [];
+    var m = 0;
+    for(var i = b; i < b+3 && i < $scope.obj.length && m < $scope.obj.length; i++) {
+        list.push(m);
+        m++;
+    }
+    return list;
+  };
 
-  $scope.list = [0,1,2];
+  // $scope.lister()
   $scope.select = "TX";
   $scope.state = MyService.doStuff();
   $scope.obj = $scope.state["TX"];
