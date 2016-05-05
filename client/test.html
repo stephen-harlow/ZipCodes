@@ -1,0 +1,42 @@
+  yo yo
+  Listing {{state.length}} Zip Codes!
+  {{output}}
+  {{status}}
+  <div class="row">
+
+    <!-- <form ng-submit="entering"> -->
+    <!-- </form> -->
+    <!-- <div class="col-xs-4"> -->
+    <div class="col-xs-2">
+    </div>
+    <div class="col-xs-4">
+
+      <!-- <autocomplete ng-model="yourchoice" data="movies" on-type="updateMovies()" click-activation="true"  on-select="selecter"></autocomplete> -->
+      <autocomplete attr-placeholder="Type the State..." attr-input-class="form-control" ng-model="yourchoice" data="movies" on-type="updateMovies()" click-activation="true"  on-select="selecter">Texas</autocomplete>
+    </div>
+
+
+    <div class="col-xs-4">
+      <input type="text" class="form-control" placeholder="Type in a Zip Code or City Name" ng-change="updateBar(search)" ng-model="search"/>
+    </div>
+    <div class="col-xs-2">
+    </div>
+  </div>
+  <div class="col-xs-12" style="height:50px;"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div ng-repeat="item in obj" ng-if="$index % 3 == 0" class="row"  ng-init="listIndex = $index">
+      <!-- <div class="row"> -->
+        <div ng-repeat="n in list" class="col-md-4">
+              <button type="button" class="btn btn-default btn-block" >
+              <div class="row">
+                <div class="col-md-3"><span class="badge"> {{obj[$parent.$index+n].code}}</span></div>
+                <div class="col-md-8"><p style="margin-bottom:4px; word-wrap:break-word;" class = "text-right">{{obj[$parent.$index+n].name}}, {{obj[$parent.$index+n].state}}</p></div>
+              </div>
+            </button>
+        <!-- </div> -->
+      </div>
+  </div>
+
+  </div>
