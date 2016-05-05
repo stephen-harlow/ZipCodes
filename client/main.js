@@ -51,12 +51,8 @@ angular.module('app', ['ngRoute', 'autocomplete'])
   }).error(function(data, status, headers, config) {
 
   });
-/*
+
   $scope.warn = function () {
-    if (!$scope.output) {
-      $scope.obj = $scope.state[$scope.rightone];
-      $scope.items2 = $scope.state[$scope.rightone];
-    };
     $scope.obj = [];
     $scope.count = 0;
     angular.forEach($scope.items2, function(item) {
@@ -94,7 +90,7 @@ angular.module('app', ['ngRoute', 'autocomplete'])
     }else {
       $scope.obj = $scope.items2;
     }
-  };*/
+  };
 
 });
 
