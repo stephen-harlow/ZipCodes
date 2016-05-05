@@ -12,11 +12,11 @@ app.use(express.static('client', {redirect: false}));
 
 app.route('/test')
 	.get(function(req, res) {
-		res.sendFile('client/index.html', { root: __dirname });
+    res.sendFile(path.join(__dirname, '..', 'client','index.html'));
 	});
 app.route('/')
 	.get(function(req, res) {
-		res.sendFile('client/index.html', { root: __dirname });
+    res.sendFile(path.join(__dirname, '..', 'client','index.html'));
 	});
 
 var port = process.env.PORT || 3000;
