@@ -10,7 +10,11 @@ angular.module('app', ['ngRoute', 'autocomplete'])
 })
 .config(function($routeProvider) {
   $routeProvider
-  .when('/test', {templateUrl: 'test.html', controller: 'Test'})
+  .when('/test', {templateUrl: 'test.html', controller: 'Test',resolve:{
+      'MyServiceData':function(MyService){
+        return MyService.promise;
+      }
+    }})
   .when('/', {templateUrl: 'main.html', controller: 'MyTestCtrl'})
   .otherwise('/');
 })
@@ -25,7 +29,7 @@ angular.module('app', ['ngRoute', 'autocomplete'])
     self.counter++;
   };
 })
-.controller('Test', function ($scope, $http, $filter) {
+.controller('Test', function ($scope, $http, $filter, MyService) {
   $scope.abbrev = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
   $scope.movies = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
 
@@ -42,16 +46,10 @@ angular.module('app', ['ngRoute', 'autocomplete'])
 
   $scope.list = [0,1,2];
   $scope.select = "TX";
-  $http({method: 'GET', url: 'file.json'}).
-  success(function(data, status, headers, config) {
-    $scope.state = data;
-    $scope.obj = $scope.state["TX"];
-    $scope.items2 = $scope.state["TX"];
-
-  }).error(function(data, status, headers, config) {
-
-  });
-
+  $scope.state = MyService.doStuff().data;
+  $scope.obj = $scope.state["TX"];
+  $scope.items2 = $scope.state["TX"];
+  
   $scope.warn = function () {
     $scope.obj = [];
     $scope.count = 0;
@@ -92,6 +90,22 @@ angular.module('app', ['ngRoute', 'autocomplete'])
     }
   };
 
+}).service('MyService', function($http) {
+    var myData = null;
+
+    var promise = $http.get('file.json').success(function (data) {
+      myData = data;
+    });
+
+    return {
+      promise:promise,
+      setData: function (data) {
+          myData = data;
+      },
+      doStuff: function () {
+          return myData;//.getSomeData();
+      }
+    };
 });
 
 function escapeRegExp(string){
