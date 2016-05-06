@@ -10,12 +10,12 @@ angular.module('app', ['ngRoute', 'autocomplete', 'infinite-scroll'])
 })
 .config(function($routeProvider) {
   $routeProvider
-  .when('/test', {templateUrl: 'test.html', controller: 'Test',resolve:{
+  .when('/main', {templateUrl: 'main.html', controller: 'MyTestCtrl'})
+  .when('/', {templateUrl: 'test.html', controller: 'Test',resolve:{
       'MyServiceData':function(MyService){
         return MyService.promise;
       }
     }})
-  .when('/', {templateUrl: 'main.html', controller: 'MyTestCtrl'})
   .otherwise('/');
 })
 .controller('MyTestCtrl', function ($scope) {
