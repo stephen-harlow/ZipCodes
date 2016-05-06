@@ -42,19 +42,20 @@
               <md-card-title-media>
               </md-card-title-media>
             </md-card-title>
+            <div class="form-group" ng-show="loading[i]">
+              <div class="btn-group">
+                <a target="_blank" href="https://www.google.com/maps?f=q&q={{filtered[i].code}}"><button class="btn btn-primary dropdown-toggle">
+                  Google Maps
+                </button></a>
+              </div>
+            </div>
             <button class="btn btn-success" ng-click="loading[i]=!loading[i]">
               More Info
             </button>
           </md-card>
 
         </div>
-        <div class="form-group" ng-show="loading[i]">
-          <div class="btn-group">
-            <a target="_blank" href="https://www.google.com/maps?f=q&q={{filtered[i].code}}"><button class="btn btn-primary dropdown-toggle">
-              Google Maps
-            </button></a>
-          </div>
-        </div>
+
       </div>
     </div>
       <div ng-show='reddit.busy'>Loading data...</div>
