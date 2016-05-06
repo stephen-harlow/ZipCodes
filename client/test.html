@@ -1,15 +1,14 @@
+<div ng-controller="Test">
   Listing {{state.length}} Zip Codes!
   {{list.length}}
+  {{random}}
   {{status}}
   <div class="row">
 
     <!-- <form ng-submit="entering"> -->
     <!-- </form> -->
     <!-- <div class="col-xs-4"> -->
-    <div class="col-xs-2">
-    </div>
     <div class="col-xs-4">
-
       <!-- <autocomplete ng-model="yourchoice" data="movies" on-type="updateMovies()" click-activation="true"  on-select="selecter"></autocomplete> -->
       <autocomplete attr-placeholder="Type the State..." attr-input-class="form-control" ng-model="yourchoice" data="movies" on-type="updateMovies()" click-activation="true"  on-select="selecter">Texas</autocomplete>
     </div>
@@ -22,20 +21,31 @@
     </div>
   </div>
   <div class="col-xs-12" style="height:50px;"></div>
-  </div>
 
   <div class="container-fluid">
-    <div ng-repeat="item in obj" ng-if="$index % 3 == 0" class="row"  ng-init="listIndex = $index; ite = lister($index)">
+    <div ng-repeat="item in obj" ng-if="$index % colum == 0" class="row"  ng-init="listIndex = $index; ite = lister($index)">
       <!-- <div class="row"> -->
-        <div ng-repeat="n in ite" class="col-md-4" ng-init="index = $index">
-              <button type="button" class="btn btn-default btn-block" >
+      <div class="clearfix visible-xs-block"></div>
+
+        <div ng-repeat="n in ite" class="col-xs-6 col-sm-3" ng-init="index = $index">
+              <!-- <button type="button" class="btn btn-default btn-block" > -->
               <div class="row">
-                <div class="col-md-3"><span class="badge">{{obj[$parent.$index+n].code}}</span></div>
-                <div class="col-md-8"><p style="margin-bottom:4px; word-wrap:break-word;" class = "text-right">{{obj[$parent.$index+n].name}}, {{obj[$parent.$index+n].state}}</p></div>
-              </div>
-            </button>
+                <md-card>
+                  <md-card-title>
+                    <md-card-title-text>
+                      <span class="md-title">{{obj[$parent.$index+n].name}}, {{obj[$parent.$index+n].state}}</span><br>
+                      <span class="md-subhead">{{obj[$parent.$index+n].code}}</span>
+                    </md-card-title-text>
+                    <md-card-title-media>
+                    </md-card-title-media>
+                  </md-card-title>
+
+                </md-card>
+
+            </div>
+            <!-- </button> -->
         <!-- </div> -->
       </div>
   </div>
-
-  </div>
+</div>
+</div>

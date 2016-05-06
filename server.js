@@ -33,6 +33,3 @@ var port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log('Application running at http://localhost:'+port);
 });
-
-// console.log('Serving app on port ');
-console.log('Application running at http://localhost:'+port);
