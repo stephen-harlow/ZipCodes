@@ -1,6 +1,6 @@
 // require('reset.less');
 
-angular.module('app', ['ngRoute', 'autocomplete'])
+angular.module('app', ['ngRoute', 'autocomplete', 'infinite-scroll'])
 .config(function($locationProvider) {
   $locationProvider
   .html5Mode({

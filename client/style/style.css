@@ -1,4 +1,15 @@
 @CHARSET "UTF-8";
+#list-wrapper{
+    max-height: 400px;
+    overflow-y: scroll;
+
+    margin-top: 20px;
+    border: solid 1px black;
+}
+
+h4{
+    padding: 20px;
+}
 
 @font-face { /* Entypo pictograms by Daniel Bruce — www.entypo.com */
 	font-family: 'Entypo';
@@ -16,7 +27,7 @@
 a{
 	text-decoration: none;
 	color: #2b7;
-  font-weight: bold; 
+  font-weight: bold;
 }
 
 a:hover{
@@ -30,7 +41,7 @@ body{
 	height: 100%;
 	line-height: 1.5em;
 	color: #333333;
-	background-color: #ffffff;	
+	background-color: #ffffff;
 }
 
 h1,
@@ -205,4 +216,3 @@ footer a:hover{
   color: #b15;
   font-weight: bold;
 }
-
