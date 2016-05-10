@@ -10,6 +10,33 @@
 h4{
     padding: 20px;
 }
+.space {
+  height: 300px;
+}
+/*.min .space{
+  height: 0px;
+}*/
+.angular-google-map-container {
+    height: 300px;
+}
+.min .angular-google-map-container{
+  height: 250px;
+}
+
+.header {
+  background: #26699a;
+  height: 300px;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 150;
+  font: 18px sans-serif;
+  color: white;
+  transition: all .25s ease-out;
+}
+
+.min .header { height: 250px; width:30%; float:right; }
 
 @font-face { /* Entypo pictograms by Daniel Bruce — www.entypo.com */
 	font-family: 'Entypo';

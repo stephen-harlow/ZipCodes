@@ -2,11 +2,11 @@
 var http = require('http');
 var express = require('express');
 var path = require('path');
-
 var app = express();
 app.set('trust proxy',true);
 
 app.use(express.static('client', {redirect: false}));
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 var env = process.env.NODE_ENV || "development";
 if(env === "development"){
 
@@ -14,6 +14,8 @@ if(env === "development"){
   .get(function(req, res) {
     res.sendFile('client/index.html', { root: __dirname });
   });
+
+
   app.route('/')
   .get(function(req, res) {
     res.sendFile('client/index.html', { root: __dirname });
