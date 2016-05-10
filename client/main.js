@@ -35,7 +35,7 @@ app.config(function($routeProvider) {
     'MyServiceData':function(MyService){
       return MyService.promise;
     }}})
-    .when('/', {templateUrl: 'views/zips.html', controller: 'zips',resolve:{
+    .when('/', {templateUrl: 'views/test.html', controller: 'test',resolve:{
       'MyServiceData':function(MyService){return MyService.promise;}
     }})
     .otherwise('/');
