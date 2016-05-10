@@ -67,13 +67,15 @@ app.config(function($routeProvider) {
         latitude: 42.3349940452867,
         longitude:-71.0353168884369
       },
-      zoom: 4,
+      zoom: 3,
       markers: [],
       markersEvents: {
         click: function(marker, eventName, model, arguments) {
-          console.log('Marker was clicked (' + marker + ', ' + eventName);//+', '+mydump(model, 0)+', '+mydump(arguments)+')');
+
+          console.log('Marker was clicked (' + arguments + ', ' + arguments);//+', '+mydump(model, 0)+', '+mydump(arguments)+')');
           var index = $scope.map.markers.indexOf(marker);
-          console.log(marker.id);
+          console.log($scope.map.markers[index]);
+          console.log($scope.loading[marker.id]);
           $scope.loading[marker.id] = false;
           $scope.map.markers.splice(index, 1);
           $scope.$apply();
@@ -101,7 +103,7 @@ app.config(function($routeProvider) {
       $scope.map.markers.splice(index, 1);
       $scope.$apply();
 
-      console.log('Marker was clicked');
+      console.log('My Marker was clicked');
     };
 
     $scope.closeClick = function () {
@@ -112,30 +114,33 @@ app.config(function($routeProvider) {
 
     $scope.totalDisplayed = 20;
     $scope.Math = window.Math;
-    $scope.colum = 4;
+    $scope.colum = 2;
     $scope.update = "";
     $scope.getCenter = function (item) {
+
       if($scope.loading[item.code]){
-      var marker = {
-        id: item.code,
-        coords: {
-          latitude: item.Latitude,
-          longitude: item.Longitude
-        }
+        var marker = {
+          id: item.code,
+          name: item.name,
+          state: item.state,
+          coords: {
+            latitude: item.Latitude,
+            longitude: item.Longitude
+          }
 
-      };
-      $scope.map.markers.push(marker);
-    }
-    else{
-      angular.forEach($scope.map.markers, function(val) {
-        if (item.id.equals(item.code)) {
-              var index = $scope.map.markers.indexOf(val);
-              $scope.map.markers.splice(index, 1);
-              $scope.$apply();
+        };
+        $scope.map.markers.push(marker);
+      }
+      else{
+        angular.forEach($scope.map.markers, function(val) {
+          if (angular.equals(item.code, val.id)) {
+                var index = $scope.map.markers.indexOf(val);
+                $scope.map.markers.splice(index, 1);
+                $scope.$apply();
 
-        }
-      });
-    }
+          }
+        });
+      }
     };
     $scope.loadMore = function () {
       $scope.totalDisplayed += 20;
