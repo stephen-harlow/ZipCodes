@@ -191,6 +191,7 @@ app.config(function($routeProvider) {
         $scope.map.markers.push(marker);
       }
       else{
+        console.log("FOund it");
         angular.forEach($scope.map.markers, function(val) {
           if (angular.equals(item.code, val.id)) {
                 var index = $scope.map.markers.indexOf(val);
