@@ -1,6 +1,6 @@
 // require('reset.less');
 console.log("Main");
-var app = angular.module('app', ['uiGmapgoogle-maps', 'ngRoute', 'autocomplete', 'infinite-scroll', 'ui.select', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module('app', ['matchmedia-ng', 'uiGmapgoogle-maps', 'ngRoute', 'autocomplete', 'infinite-scroll', 'ui.select', 'ngSanitize', 'ui.bootstrap']);
 app.config(function($locationProvider) {
   $locationProvider
   .html5Mode({
@@ -58,8 +58,47 @@ app.config(function($routeProvider) {
       }
     };
   });
-  app.controller('test', ['$scope', '$http', '$filter', 'MyService',
-  function($scope, $http, $filter, MyService) {
+  app.controller('test', ['$scope', '$http', '$filter', 'MyService', 'matchmedia',
+  function($scope, $http, $filter, MyService, matchmedia) {
+    var wrap = $("#wrap");
+
+    wrap.on("scroll", function(e) {
+
+      if (this.scrollTop > 147) {
+        wrap.addClass("fix-search");
+      } else {
+        wrap.removeClass("fix-search");
+      }
+
+    });
+    $scope.colum = 2;
+    var unDesk = matchmedia.onDesktop( function(mediaQueryList){
+      $scope.isDesktop = mediaQueryList.matches;
+      if($scope.isDesktop){
+        $scope.colum = 3;
+        $scope.shorter = 2;
+
+      }
+      console.log("isDesktop" + $scope.isDesktop);
+
+    });
+    var unTab = matchmedia.onTablet( function(mediaQueryList){
+      $scope.isTablet = mediaQueryList.matches;
+      if($scope.isTablet){
+        $scope.colum = 2;
+        $scope.shorter = 2;
+      }
+      console.log("isTablet" + $scope.isTablet);
+    });
+    var unPhone = matchmedia.onPhone( function(mediaQueryList){
+      $scope.isPhone = mediaQueryList.matches;
+      if($scope.isPhone){
+        $scope.colum = 2;
+        $scope.shorter = 1;
+
+      }
+      console.log("isPhone" + $scope.isPhone);
+    });
 
     $scope.loading = [];
     $scope.map = {
@@ -69,18 +108,6 @@ app.config(function($routeProvider) {
       },
       zoom: 3,
       markers: [],
-      markersEvents: {
-        click: function(marker, eventName, model, arguments) {
-
-          console.log('Marker was clicked (' + arguments + ', ' + arguments);//+', '+mydump(model, 0)+', '+mydump(arguments)+')');
-          var index = $scope.map.markers.indexOf(marker);
-          console.log($scope.map.markers[index]);
-          console.log($scope.loading[marker.id]);
-          $scope.loading[marker.id] = false;
-          $scope.map.markers.splice(index, 1);
-          $scope.$apply();
-        }
-      },
       window: {
         marker: {},
         show: false,
@@ -89,6 +116,26 @@ app.config(function($routeProvider) {
         },
         options: {}, // define when map is ready
         title: ''
+      }
+    };
+    $scope.create = function (m) {
+      if($scope.colum == 2){
+        return [m, m+1];
+      }
+      else{
+        return [m, m+1, m+2];
+      }
+    };
+    $scope.createsub = function (m, le) {
+      var i = 0;
+      if(le == 2){
+        return [m, m+1];
+      }
+      else if (le == 1){
+        return [m];
+      }
+      else{
+        return [m, m+1, m+2];
       }
     };
 
@@ -101,20 +148,31 @@ app.config(function($routeProvider) {
       var index = $scope.map.markers.indexOf(m);
       $scope.loading[m.id] = false;
       $scope.map.markers.splice(index, 1);
-      $scope.$apply();
-
       console.log('My Marker was clicked');
     };
 
-    $scope.closeClick = function () {
-      this.window = false;
+    $scope.windowOptions = {
+        visible: false
     };
+
+    $scope.onClick = function(m) {
+      $scope.se = m;
+      m.show = !m.show;
+      console.log("Click" + m);
+
+        $scope.windowOptions.visible = !$scope.windowOptions.visible;
+    };
+
+    $scope.closeClick = function() {
+        $scope.windowOptions.visible = false;
+    };
+
+    $scope.title = "Window Title!";
 
     console.log("Here tho?");
 
     $scope.totalDisplayed = 20;
     $scope.Math = window.Math;
-    $scope.colum = 2;
     $scope.update = "";
     $scope.getCenter = function (item) {
 
@@ -122,6 +180,7 @@ app.config(function($routeProvider) {
         var marker = {
           id: item.code,
           name: item.name,
+          show: false,
           state: item.state,
           coords: {
             latitude: item.Latitude,
@@ -136,8 +195,6 @@ app.config(function($routeProvider) {
           if (angular.equals(item.code, val.id)) {
                 var index = $scope.map.markers.indexOf(val);
                 $scope.map.markers.splice(index, 1);
-                $scope.$apply();
-
           }
         });
       }
