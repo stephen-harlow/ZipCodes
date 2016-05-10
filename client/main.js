@@ -138,9 +138,15 @@ app.config(function($routeProvider) {
         return [m, m+1, m+2];
       }
     };
+    $scope.$root.windowClicked = function (m) {
+      alert('here');
+      $scope.set(m.id);
+      $scope.getCenter({code:m.id});
+    };
 
     //$scope.window = false;
     $scope.set = function (m) {
+      console.log($scope.loading[m] );
       $scope.loading[m] = !$scope.loading[m];
     };
     $scope.onMarkerClicked = function (m) {
