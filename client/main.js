@@ -31,7 +31,7 @@ app.filter('emptyFilter', function() {
 });
 app.config(function($routeProvider) {
   $routeProvider
-  .when('/test', {templateUrl: 'views/test.html', controller: 'test',resolve:{
+  .when('/test', {templateUrl: 'views/zips.html', controller: 'zips',resolve:{
     'MyServiceData':function(MyService){
       return MyService.promise;
     }}})
