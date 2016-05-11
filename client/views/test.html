@@ -18,47 +18,34 @@
 
   </div>
 </div>
-  <div class="row" id="place" >
+  <div class="row" id="place"   data-ng-init="init()" >
     <div class="col-xs-4" style='position:fixed;top:50px;'>
       <ui-gmap-google-map ng-show="showMap" center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">
-          <ui-gmap-markers models="randomMarkers" coords="'self'" icon="'icon'">
-            <ui-gmap-window ng-cloak>
-                    <a ui-sref="details({ id : $parent.marker.id })">Go!</a>
-                </ui-gmap-window>
+          <ui-gmap-markers models="randomMarkers" coords="'self'" idkey="id" icon="'icon'" events="map.markersEvents">
+            <ui-gmap-windows show="show">
+        <div ng-non-bindable>
+          <strong>{{name}},{{state}}</strong></br>
+          {{id}}</br>
+          <small>(Double Click to Remove)</small>
+        </div>
+      </ui-gmap-windows>
           </ui-gmap-markers>
       </ui-gmap-google-map>
-      <!-- <ui-gmap-google-map ng-show="showMap"  center="map.center" zoom="map.zoom" draggable="true" events="map.events">
 
-            <ui-gmap-marker ng-repeat="m in randomMarkers" coords="m.coords" icon="m.icon" idkey="m.id" coords="'self'" doCluster="false" click="onClick(m)" options="'options'">
-              <ui-gmap-window show="m.show">
-                                      <p>
-                                      Lat: {{m.coords.latitude}},
-                                      Long: {{m.coords.longitude}}<br/>
-                                      Place: <strong>{{m.name}},{{m.state}} {{m.id}}</strong>
-                                     <br/>
-                                   </p>
-
-                              </ui-gmap-window>
-            </ui-gmap-marker>
-      </ui-gmap-google-map> -->
       <div style="clear: right; overflow-y: scroll; overflow-x:hidden;  max-height:250px;">
+          <div class="row" ng-repeat="item in fil = ( randomMarkers | orderBy: 'name' ) track by $index" ng-if="$index % shorter == 0">
+              <div class="col-xs-12 col-sm-6 col-md-4"
+              ng-repeat="i in createsub($index, shorter)"
+              ng-if="fil[i] != null">
+              <button style="margin-right: 5px; " class="btn btn-danger btn-sm" ng-click="set(fil[i].id); getCenter({code:fil[i].id});">{{fil[i].name}} <span class="badge">{{fil[i].state}}</span>
+                <br>{{fil[i].id}}
+              </button>
 
-        <div class="row" ng-repeat="item in randomMarkers track by $index" ng-if="$index % shorter == 0">
-          <p>
-            <div class="col-xs-12 col-sm-6 col-md-6"
-            ng-repeat="i in createsub($index, shorter)"
-            ng-if="randomMarkers[i] != null">
-            <button class="btn btn-danger btn-sm btn-block" ng-click="set(randomMarkers[i].id); getCenter({code:randomMarkers[i].id});">{{randomMarkers[i].name}} <span class="badge">{{randomMarkers[i].state}}</span>
-              <br>{{randomMarkers[i].id}}
-            </button>
+            </div>
+        </div>
 
-          </div>
-        </p>
-      </div>
       </div>
     </div>
-    <!-- <div class="row" ng-show="!showMap" style="height:50px; background-color:white;"></div> -->
-
     <div class="col-xs-8 col-xs-offset-4" style="top:50px;overflow-x:hidden;">
       <div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
         <div class="row" ng-repeat="item in filtered = (obj | filter: search | orderBy: 'name' ) | limitTo:totalDisplayed track by $index" ng-if="$index % colum == 0">
