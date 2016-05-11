@@ -1,4 +1,5 @@
 <div ng-controller="test" scroll id="page" ng-class="{min:boolChangeClass}" style="overflow-x:hidden;">
+
 <div class="row">
   <div class="col-md-12" id="searches" style='position:fixed;top:0;width:110%;height:50px;z-index:100; background-color:white;'>
     <div class="col-xs-4">
@@ -9,7 +10,7 @@
 
     </div>
     <div class="col-xs-2">
-      <button class="btn btn-default btn-xs" style="max-width:45px;" ng-click="flip()">
+      <button class="btn btn-default btn-xs" style="max-width:43px;" ng-click="flip()">
         <img ng-show="theImage" ng-src="{{theImage}}" ng-click="flip">
       </button>
 
@@ -19,9 +20,16 @@
 </div>
   <div class="row" id="place" >
     <div class="col-xs-4" style='position:fixed;top:50px;'>
-      <ui-gmap-google-map ng-show="showMap"  center="map.center" zoom="map.zoom" draggable="true" events="map.events">
+      <ui-gmap-google-map ng-show="showMap" center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">
+          <ui-gmap-markers models="randomMarkers" coords="'self'" icon="'icon'">
+            <ui-gmap-window ng-cloak>
+                    <a ui-sref="details({ id : $parent.marker.id })">Go!</a>
+                </ui-gmap-window>
+          </ui-gmap-markers>
+      </ui-gmap-google-map>
+      <!-- <ui-gmap-google-map ng-show="showMap"  center="map.center" zoom="map.zoom" draggable="true" events="map.events">
 
-            <ui-gmap-marker ng-repeat="m in map.markers" coords="m.coords" icon="m.icon" idkey="m.id" coords="'self'" doCluster="false" click="onClick(m)" options="'options'">
+            <ui-gmap-marker ng-repeat="m in randomMarkers" coords="m.coords" icon="m.icon" idkey="m.id" coords="'self'" doCluster="false" click="onClick(m)" options="'options'">
               <ui-gmap-window show="m.show">
                                       <p>
                                       Lat: {{m.coords.latitude}},
@@ -31,25 +39,17 @@
                                    </p>
 
                               </ui-gmap-window>
-              <!-- <ui-gmap-window options="windowOptions" closeClick="closeClick()">
-                              <div>
-                                {{m.name}}, {{m.state}}
-
-
-
-                              </div>
-                          </ui-gmap-window> -->
             </ui-gmap-marker>
-      </ui-gmap-google-map>
+      </ui-gmap-google-map> -->
       <div style="clear: right; overflow-y: scroll; overflow-x:hidden;  max-height:250px;">
 
-        <div class="row" ng-repeat="item in map.markers track by $index" ng-if="$index % shorter == 0">
+        <div class="row" ng-repeat="item in randomMarkers track by $index" ng-if="$index % shorter == 0">
           <p>
             <div class="col-xs-12 col-sm-6 col-md-6"
             ng-repeat="i in createsub($index, shorter)"
-            ng-if="map.markers[i] != null">
-            <button class="btn btn-danger btn-sm btn-block" ng-click="set(map.markers[i].id); getCenter({code:map.markers[i].id});">{{map.markers[i].name}} <span class="badge">{{map.markers[i].state}}</span>
-              <br>{{map.markers[i].id}}
+            ng-if="randomMarkers[i] != null">
+            <button class="btn btn-danger btn-sm btn-block" ng-click="set(randomMarkers[i].id); getCenter({code:randomMarkers[i].id});">{{randomMarkers[i].name}} <span class="badge">{{randomMarkers[i].state}}</span>
+              <br>{{randomMarkers[i].id}}
             </button>
 
           </div>

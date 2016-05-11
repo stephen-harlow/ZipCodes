@@ -58,9 +58,40 @@ app.config(function($routeProvider) {
       }
     };
   });
+
+app.controller('mainCtrl', function($scope) {
+
+    var createRandomMarker = function(i, bounds, idKey) {
+      var lat_min = bounds.southwest.latitude,
+        lat_range = bounds.northeast.latitude - lat_min,
+        lng_min = bounds.southwest.longitude,
+        lng_range = bounds.northeast.longitude - lng_min;
+
+      if (idKey == null) {
+        idKey = "id";
+      }
+
+      var latitude = lat_min + (Math.random() * lat_range);
+      var longitude = lng_min + (Math.random() * lng_range);
+      var ret = {
+        latitude: latitude,
+        longitude: longitude,
+        title: 'm' + i
+      };
+      ret[idKey] = i;
+      return ret;
+    };
+    $scope.randomMarkers = [];
+
+  });
+
+
+
+
   app.controller('test', ['$scope', '$http', '$filter', 'MyService', 'matchmedia',
   function($scope, $http, $filter, MyService, matchmedia) {
     $scope.showMap = true;
+    $scope.randomMarkers = [];
 
     $scope.flip = function () {
       console.log("flip")
@@ -88,11 +119,14 @@ app.config(function($routeProvider) {
 
     });
     $scope.colum = 2;
+    $scope.theImage = "loads/list.png";
+
     var unDesk = matchmedia.onDesktop( function(mediaQueryList){
-      $scope.theImage = "loads/list.png";
 
       $scope.isDesktop = mediaQueryList.matches;
       if($scope.isDesktop){
+        $scope.theImage = "loads/list.png";
+
         $scope.showMap = true;
 
         $scope.colum = 3;
@@ -104,8 +138,10 @@ app.config(function($routeProvider) {
 
     });
     var unTab = matchmedia.onTablet( function(mediaQueryList){
+
       $scope.isTablet = mediaQueryList.matches;
       if($scope.isTablet){
+        $scope.theImage = "loads/list.png";
         $scope.showMap = true;
 
         $scope.colum = 2;
@@ -114,12 +150,12 @@ app.config(function($routeProvider) {
       console.log("isTablet" + $scope.isTablet);
     });
     var unPhone = matchmedia.onPhone( function(mediaQueryList){
-      $scope.theImage = "loads/map.png";
 
       $scope.heighter = 50;
       $scope.isPhone = mediaQueryList.matches;
       if($scope.isPhone){
-        $scope.showMap = false;
+        $scope.theImage = "loads/map.png";
+         $scope.showMap = false;
         $scope.colum = 2;
         $scope.shorter = 1;
 
@@ -130,20 +166,15 @@ app.config(function($routeProvider) {
     $scope.loading = [];
     $scope.map = {
       center: {
-        latitude: 42.3349940452867,
-        longitude:-71.0353168884369
+        latitude: 40.1451,
+        longitude: -99.6680
       },
-      zoom: 3,
-      markers: [],
-      window: {
-        marker: {},
-        show: false,
-        closeClick: function() {
-          this.show = false;
-        },
-        options: {}, // define when map is ready
-        title: ''
-      }
+      zoom: 4,
+      bounds: {},
+      markers: []
+    };
+    $scope.options = {
+      scrollwheel: true
     };
     $scope.create = function (m) {
       if($scope.colum == 2){
@@ -183,31 +214,15 @@ app.config(function($routeProvider) {
     };
     $scope.onMarkerClicked = function (m) {
       //this.windowOptions = !this.windowOptions;
-      var index = $scope.map.markers.indexOf(m);
+      var index = $scope.randomMarkers.indexOf(m);
       var val = $scope.loading.indexOf(m);
       if(val !== -1){
         $scope.loading.splice(val, 1);
       }
-      $scope.map.markers.splice(index, 1);
+      $scope.randomMarkers.splice(index, 1);
       console.log('My Marker was clicked');
     };
-
-    $scope.windowOptions = {
-        visible: false
-    };
-
-    $scope.onClick = function(m) {
-      $scope.se = m;
-      m.show = !m.show;
-      console.log("Click" + m);
-
-        $scope.windowOptions.visible = !$scope.windowOptions.visible;
-    };
-
-    $scope.closeClick = function() {
-        $scope.windowOptions.visible = false;
-    };
-
+    
     $scope.title = "Window Title!";
 
     console.log("Here tho?");
@@ -225,19 +240,21 @@ app.config(function($routeProvider) {
           name: item.name,
           show: false,
           state: item.state,
-          coords: {
-            latitude: item.Latitude,
-            longitude: item.Longitude
-          }
+          latitude: item.Latitude,
+          longitude: item.Longitude
         };
-        $scope.map.markers.push(marker);
+        var markers = $scope.randomMarkers;
+        markers.push(marker)
+
+        $scope.randomMarkers = markers;
+                // $scope.apply();
       }
       else{
         console.log("FOund it");
-        angular.forEach($scope.map.markers, function(val) {
+        angular.forEach($scope.randomMarkers, function(val) {
           if (angular.equals(item.code, val.id)) {
-                var index = $scope.map.markers.indexOf(val);
-                $scope.map.markers.splice(index, 1);
+                var index = $scope.randomMarkers.indexOf(val);
+                $scope.randomMarkers.splice(index, 1);
           }
         });
       }
