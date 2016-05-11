@@ -60,6 +60,22 @@ app.config(function($routeProvider) {
   });
   app.controller('test', ['$scope', '$http', '$filter', 'MyService', 'matchmedia',
   function($scope, $http, $filter, MyService, matchmedia) {
+    $scope.showMap = true;
+
+    $scope.flip = function () {
+      console.log("flip")
+      if($scope.showMap){
+        $scope.showMap = false;
+        $scope.theImage = "loads/map.png";
+
+      }
+      else{
+        $scope.showMap = true;
+        $scope.theImage = "loads/list.png";
+      }
+    };
+
+    $scope.heighter = 300;
     var wrap = $("#wrap");
 
     wrap.on("scroll", function(e) {
@@ -73,26 +89,37 @@ app.config(function($routeProvider) {
     });
     $scope.colum = 2;
     var unDesk = matchmedia.onDesktop( function(mediaQueryList){
+      $scope.theImage = "loads/list.png";
+
       $scope.isDesktop = mediaQueryList.matches;
       if($scope.isDesktop){
+        $scope.showMap = true;
+
         $scope.colum = 3;
         $scope.shorter = 2;
 
       }
       console.log("isDesktop" + $scope.isDesktop);
 
+
     });
     var unTab = matchmedia.onTablet( function(mediaQueryList){
       $scope.isTablet = mediaQueryList.matches;
       if($scope.isTablet){
+        $scope.showMap = true;
+
         $scope.colum = 2;
         $scope.shorter = 2;
       }
       console.log("isTablet" + $scope.isTablet);
     });
     var unPhone = matchmedia.onPhone( function(mediaQueryList){
+      $scope.theImage = "loads/map.png";
+
+      $scope.heighter = 50;
       $scope.isPhone = mediaQueryList.matches;
       if($scope.isPhone){
+        $scope.showMap = false;
         $scope.colum = 2;
         $scope.shorter = 1;
 
@@ -146,13 +173,21 @@ app.config(function($routeProvider) {
 
     //$scope.window = false;
     $scope.set = function (m) {
-      console.log($scope.loading[m] );
-      $scope.loading[m] = !$scope.loading[m];
+      var val = $scope.loading.indexOf(m);
+      if(val !== -1){
+        $scope.loading.splice(val, 1);
+      }
+      else{
+        $scope.loading.push(m);
+      }
     };
     $scope.onMarkerClicked = function (m) {
       //this.windowOptions = !this.windowOptions;
       var index = $scope.map.markers.indexOf(m);
-      $scope.loading[m.id] = false;
+      var val = $scope.loading.indexOf(m);
+      if(val !== -1){
+        $scope.loading.splice(val, 1);
+      }
       $scope.map.markers.splice(index, 1);
       console.log('My Marker was clicked');
     };
@@ -181,8 +216,10 @@ app.config(function($routeProvider) {
     $scope.Math = window.Math;
     $scope.update = "";
     $scope.getCenter = function (item) {
-
-      if($scope.loading[item.code]){
+      var val = $scope.loading.indexOf(item.code);
+      $scope.report = val;
+      console.log("FILTERING");
+      if(val > -1){
         var marker = {
           id: item.code,
           name: item.name,
@@ -192,7 +229,6 @@ app.config(function($routeProvider) {
             latitude: item.Latitude,
             longitude: item.Longitude
           }
-
         };
         $scope.map.markers.push(marker);
       }

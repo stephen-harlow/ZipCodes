@@ -1,12 +1,25 @@
-<div ng-controller="test" scroll id="page" ng-class="{min:boolChangeClass}">
+<div ng-controller="test" scroll id="page" ng-class="{min:boolChangeClass}" style="overflow-x:hidden;">
+<div class="row">
+  <div class="col-md-12" id="searches" style='position:fixed;top:0;width:110%;height:50px;z-index:100; background-color:white;'>
+    <div class="col-xs-4">
+      <autocomplete attr-placeholder="Type the State..." click-activation="true" attr-input-class="form-control" ng-model="yourchoice" data="movies" on-type="updateMovies()" click-activation="true"  on-select="selecter" style="pointer-events:auto;">Texas</autocomplete>
+    </div>
+    <div class="col-xs-4">
+      <input type="text" class="form-control" placeholder="Type in a Zip Code or City Name" ng-change="updateBar(search)" ng-model="search"/>
 
-  <!-- Post Info -->
+    </div>
+    <div class="col-xs-2">
+      <button class="btn btn-default btn-xs" style="max-width:45px;" ng-click="flip()">
+        <img ng-show="theImage" ng-src="{{theImage}}" ng-click="flip">
+      </button>
 
-  <div style='position:fixed;top:0;left:0;z-index:10005; max-height: 400px;' class='col-xs-12 col-md-4'>
-    <div class="row" style="height:50px; background-color:white;"></div>
-    <div class="header" data-spy="affix" data-offset-top="300">
-      <div class="row">
-      <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" events="map.events">
+    </div>
+
+  </div>
+</div>
+  <div class="row" id="place" >
+    <div class="col-xs-4" style='position:fixed;top:50px;'>
+      <ui-gmap-google-map ng-show="showMap"  center="map.center" zoom="map.zoom" draggable="true" events="map.events">
 
             <ui-gmap-marker ng-repeat="m in map.markers" coords="m.coords" icon="m.icon" idkey="m.id" coords="'self'" doCluster="false" click="onClick(m)" options="'options'">
               <ui-gmap-window show="m.show">
@@ -28,46 +41,25 @@
                           </ui-gmap-window> -->
             </ui-gmap-marker>
       </ui-gmap-google-map>
+      <div style="clear: right; overflow-y: scroll; overflow-x:hidden;  max-height:250px;">
+
+        <div class="row" ng-repeat="item in map.markers track by $index" ng-if="$index % shorter == 0">
+          <p>
+            <div class="col-xs-12 col-sm-6 col-md-6"
+            ng-repeat="i in createsub($index, shorter)"
+            ng-if="map.markers[i] != null">
+            <button class="btn btn-danger btn-sm btn-block" ng-click="set(map.markers[i].id); getCenter({code:map.markers[i].id});">{{map.markers[i].name}} <span class="badge">{{map.markers[i].state}}</span>
+              <br>{{map.markers[i].id}}
+            </button>
+
+          </div>
+        </p>
+      </div>
+      </div>
     </div>
-    <div style="overflow-y: scroll;overflow-x: hidden; max-height: 250px;" class="col-xs-4 col-sm-4 col-md-12">
-      <div class="row" ng-repeat="item in map.markers track by $index" ng-if="$index % shorter == 0">
-        <p>
-          <div class="col-xs-6 col-sm-6 col-md-6"
-          ng-repeat="i in createsub($index, shorter)"
-          ng-if="map.markers[i] != null">
-          <button class="btn btn-danger btn-sm btn-block" ng-click="set(map.markers[i].id); getCenter({code:map.markers[i].id});">{{map.markers[i].name}} <span class="badge">{{map.markers[i].state}}</span>
-            <br>{{map.markers[i].id}}
-          </button>
+    <!-- <div class="row" ng-show="!showMap" style="height:50px; background-color:white;"></div> -->
 
-        </div>
-      </p>
-    </div>
-  </div>
-</div>
-</div>
-
-  <div class="maincontent col-xs-12 col-md-8  col-md-offset-4">
-
-  <my-content>{{names}}</my-content>
-
-
-
-    <div class="container-fluid col-sm-offset-4 col-xs-offset-4 col-md-offset-0">
-      <!-- <div infinite-scroll='loadMore()'> -->
-      <div class="col-xs-12" ng-show="isTablet || isPhone" style="background-color: black; height:400px;"></div>
-      <div style='position:fixed;top:0;left:0;z-index:10005;' class="row">
-
-        <div class="col-xs-6 col-sm-6 col-md-6">
-          <!-- <autocomplete ng-model="yourchoice" data="movies" on-type="updateMovies()" click-activation="true"  on-select="selecter"></autocomplete> -->
-          <autocomplete attr-placeholder="Type the State..." click-activation="true" attr-input-class="form-control" ng-model="yourchoice" data="movies" on-type="updateMovies()" click-activation="true"  on-select="selecter">Texas</autocomplete>
-        </div>
-
-
-        <div class="col-xs-6 col-sm-6 col-md-6">
-          <input type="text" class="form-control" placeholder="Type in a Zip Code or City Name" ng-change="updateBar(search)" ng-model="search"/>
-        </div>
-
-        </div>
+    <div class="col-xs-8 col-xs-offset-4" style="top:50px;overflow-x:hidden;">
       <div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
         <div class="row" ng-repeat="item in filtered = (obj | filter: search | orderBy: 'name' ) | limitTo:totalDisplayed track by $index" ng-if="$index % colum == 0">
           <div class="col-xs-6 col-sm-6 col-md-4"
@@ -81,7 +73,7 @@
                   <span class="md-subhead">{{filtered[i].code}}</span>
                 </md-card-title-text>
               </md-card-title>
-              <div class="form-group" ng-show="loading[filtered[i].code]">
+              <div class="form-group">
                   <a target="_blank" href="https://www.google.com/maps?f=q&q={{filtered[i].code}}"><button class="btn btn-primary dropdown-toggle">
                     Google Maps
                   </button></a>
@@ -90,8 +82,11 @@
                   </button></a>
                 </div>
               <!--# State	 code	 name	Long	 Area	 Number	 Latitude	 Longitude  -->
-              <button class="btn btn-success" ng-click="set(filtered[i].code); getCenter(filtered[i]);">
-                More Info
+              <button class="btn btn-success" ng-show="loading.indexOf(filtered[i].code) === -1" ng-click="set(filtered[i].code); getCenter(filtered[i]);">
+                Add
+              </button>
+              <button class="btn btn-danger" ng-show="loading.indexOf(filtered[i].code) !== -1" ng-click="set(filtered[i].code); getCenter(filtered[i]);">
+                Remove
               </button>
             </md-card>
 
@@ -99,8 +94,9 @@
 
         </div>
       </div>
-      <div ng-show='reddit.busy'>Loading data...</div>
+
     </div>
+
 
     <button type="button" class="btn btn-danger" ng-click="loadMore()">Load more</button>
   </div>

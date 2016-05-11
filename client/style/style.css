@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-.content {
+/*.content {
     margin-top: 150px;
     background-color: #a9a8a8;
     min-height: 5500px;
@@ -40,7 +40,7 @@
 .maincontent{
   /*width: 65%;*/
   float: right;
-}
+}*/
 h4{
   padding: 20px;
 }
