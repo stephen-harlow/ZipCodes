@@ -1,5 +1,14 @@
 @CHARSET "UTF-8";
-
+.block {
+    float: left;
+    min-width: 100px;
+    background-color: white;
+    padding: 5px;
+    box-sizing: border-box;
+}
+button span.pull-left {
+  text-align: left
+}
 /*.content {
     margin-top: 150px;
     background-color: #a9a8a8;

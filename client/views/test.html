@@ -32,9 +32,21 @@
           </ui-gmap-markers>
       </ui-gmap-google-map>
 
-      <div style="clear: right; overflow-y: scroll; overflow-x:hidden;  max-height:250px;">
-          <div class="row" ng-repeat="item in fil = ( randomMarkers | orderBy: 'name' ) track by $index" ng-if="$index % shorter == 0">
-              <div class="col-xs-12 col-sm-6 col-md-4"
+      <div class="container col-xs-12" style="overflow-y: scroll; overflow-x:hidden; max-height:250px;">
+        <div class="block" ng-repeat="item in fil = ( randomMarkers | orderBy: 'name' ) track by $index">
+            <button class="btn btn-danger" ng-click="set(item.id); getCenter({code:item.id});">
+
+            <p style="white-space:pre-wrap ; word-wrap:break-word;">{{item.name}}</p>
+              {{item.id}}
+              <span class="badge">{{item.state}}</span>
+            <!-- </button> -->
+        </button>
+      </div>
+      </div>
+      <!-- <div style="clear: right; overflow-y: scroll; overflow-x:hidden;  max-height:250px;" class="container">
+
+          <div class="col-xs-12 col-sm-6 col-md-4" ng-repeat="item in fil = ( randomMarkers | orderBy: 'name' ) track by $index" ng-if="$index % shorter == 0">
+              <div class=""
               ng-repeat="i in createsub($index, shorter)"
               ng-if="fil[i] != null">
               <button style="margin-right: 5px; " class="btn btn-danger btn-sm" ng-click="set(fil[i].id); getCenter({code:fil[i].id});">{{fil[i].name}} <span class="badge">{{fil[i].state}}</span>
@@ -44,7 +56,7 @@
             </div>
         </div>
 
-      </div>
+      </div> -->
     </div>
     <div class="col-xs-8 col-xs-offset-4" style="top:50px;overflow-x:hidden;">
       <div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
