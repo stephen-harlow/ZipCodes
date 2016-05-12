@@ -6,63 +6,84 @@
     padding: 5px;
     box-sizing: border-box;
 }
+.tabsdemoDynamicHeight md-content {
+  background-color: transparent !important; }
+  .tabsdemoDynamicHeight md-content md-tabs {
+    background: #f6f6f6;
+    border: 1px solid #e1e1e1; }
+    .tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
+      background: white; }
+  .tabsdemoDynamicHeight md-content h1:first-child {
+    margin-top: 0; }
 button span.pull-left {
   text-align: left
-}
-/*.content {
-    margin-top: 150px;
-    background-color: #a9a8a8;
-    min-height: 5500px;
-}
-.container {
-    background-color: #f2f2f2;
-}
-.sidebar-outer {
-    margin-top: 150px;
-    position: relative;
-}
-.fixed {
-    position: fixed;
-}
-.top-header {
-  /*position: fixed;*/
-  top: 0;
-  left: 0;
-
-}
-
-.top {
-  height: 250px;
-  padding-top: 40px;
-}
-
-
-#list-wrapper{
-    max-height: 400px;
-    overflow-y: scroll;
-
-    margin-top: 20px;
-    border: solid 1px black;
 }
 
 
 .maincontent{
   /*width: 65%;*/
   float: right;
-}*/
+}
+#mather {
+    border: 2px solid;
+    padding: 20px;
+    width: 300px;
+    resize: vertical;
+    overflow: auto;
+}
 h4{
   padding: 20px;
 }
 
+.wrapper
+{
+    resize:vertical;
+    overflow:auto;
+    min-height:100%;
+    width:100%;
+    position:relative;
+    display:inline-block;
+}
+.sidebar
+{
+    resize:vertical;
+    overflow:auto;
+    width:20%;
+    top:0px;
+    left:0px;
+    bottom:0px;
+    position:absolute;
+    background-color:yellow;
+}
+.content
+{
+    width:80%;
+    position:relative;
+    background-color:#CCC;
+    float:right;
+
+}
 /*.min .space{
   height: 0px;
 }*/
-/*.angular-google-map-container {
-  height: 300px;
-}*/
-.angular-google-map-container{
-  height: 350px;
+.div-wrapper {
+  position:relative;
+  height: 100%;
+  width: 100%;
 }
+form.tab-form-demo .tab-pane {
+    margin: 20px 20px;
+}
+.angular-google-map-container{
+  height: 300px;
+}
+/*.angular-google-map-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}*/
 
 .header {
   /*position: fixed;*/

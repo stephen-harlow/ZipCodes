@@ -3,11 +3,17 @@
 // // Retrieve the object from storage
 // var retrievedObject = localStorage.getItem('testObject');
 
-angular.module('app').controller('test', ['$scope', '$http', '$filter', 'MyService', 'matchmedia',
-function($scope, $http, $filter, MyService, matchmedia){
+angular.module('app').controller('test', ['$scope', '$http', '$window', '$filter', 'MyService', 'matchmedia',
+function($scope, $http, $filter, window, MyService, matchmedia){
+  $scope.showExp = true;
   // in controller
   $scope.override = false;
   $scope.showMap = true;
+  $scope.$watch('showMap', function() {
+      $scope.mine = $scope.showMap ?  $(window).height()/3.5-25: $(window).height()-50;
+
+        // alert('hey, myVar has changed!');
+    });
   $scope.randomMarkers = [];
   $scope.loading = [];
   if (localStorage.getItem("loading") !== null) {

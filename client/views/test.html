@@ -18,9 +18,10 @@
 
   </div>
 </div>
+
   <div class="row" id="place"   data-ng-init="init()" >
     <div class="col-xs-4" style='position:fixed;top:50px;'>
-      <ui-gmap-google-map ng-show="showMap" center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">
+      <ui-gmap-google-map id="local" ng-show="showMap" center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">
           <ui-gmap-markers models="randomMarkers" coords="'self'" idkey="id" icon="'icon'" events="map.markersEvents">
             <ui-gmap-windows show="show">
         <div ng-non-bindable>
@@ -32,17 +33,36 @@
           </ui-gmap-markers>
       </ui-gmap-google-map>
 
-      <div class="container col-xs-12" style="overflow-y: scroll; overflow-x:hidden; max-height:250px;">
-        <div class="block" ng-repeat="item in fil = ( randomMarkers | orderBy: 'name' ) track by $index">
-            <button class="btn btn-danger" ng-click="set(item.id); getCenter({code:item.id});">
+      <uib-tabset active="active">
+          <uib-tab index="0" heading="List">
+            <h3>List</h3>
 
-            <p style="white-space:pre-wrap ; word-wrap:break-word;">{{item.name}}</p>
-              {{item.id}}
-              <span class="badge">{{item.state}}</span>
-            <!-- </button> -->
-        </button>
-      </div>
-      </div>
+            <div class="container col-xs-12" style="overflow-y: scroll; overflow-x:hidden;" ng-style="{ 'height': mine+'px' }">
+              <div class="block" ng-repeat="item in fil = ( randomMarkers | orderBy: 'name' ) track by $index">
+                  <button class="btn btn-danger" ng-click="set(item.id); getCenter({code:item.id});">
+
+                  <p style="white-space:pre-wrap ; word-wrap:break-word;">{{item.name}}</p>
+                    {{item.id}}
+                    <span class="badge">{{item.state}}</span>
+                  <!-- </button> -->
+              </button>
+              </div>
+            </div>
+          </uib-tab>
+          <uib-tab index="1" heading="Detailed Information" ng-show="showExp" >
+            <h3>Detailed Information</h3>
+            <div class="container col-xs-12" style="overflow-y: scroll; overflow-x:hidden;" ng-style="{ 'height': mine+'px' }">
+            <uib-tabset>
+                <uib-tab ng-repeat="item in fil = ( randomMarkers | orderBy: 'name' ) track by $index" heading="{{item.id}}">
+
+                    {{item.name}}, {{item.state}} {{item.id}}
+                    <!-- </button> -->
+                </uib-tab>
+              </uib-tabset>
+            </div>
+          </uib-tab>
+        </uib-tabset>
+        Contents of 2</div>
       <!-- <div style="clear: right; overflow-y: scroll; overflow-x:hidden;  max-height:250px;" class="container">
 
           <div class="col-xs-12 col-sm-6 col-md-4" ng-repeat="item in fil = ( randomMarkers | orderBy: 'name' ) track by $index" ng-if="$index % shorter == 0">
@@ -57,10 +77,11 @@
         </div>
 
       </div> -->
-    </div>
+  </div>
+
     <div class="col-xs-8 col-xs-offset-4" style="top:50px;overflow-x:hidden;">
       <div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
-        <div class="row" ng-repeat="item in filtered = (obj | filter: search | orderBy: 'name' ) | limitTo:totalDisplayed track by $index" ng-if="$index % colum == 0">
+        <div class="row" ng-repeat="item in filtered = (obj | search : search | orderBy : 'points' : true) | limitTo:totalDisplayed track by $index" ng-if="$index % colum == 0">
           <div class="col-xs-6 col-sm-6 col-md-4"
           ng-repeat="i in create($index)"
           ng-if="filtered[i] != null">
@@ -73,20 +94,33 @@
                 </md-card-title-text>
               </md-card-title>
               <div class="form-group">
-                  <a target="_blank" href="https://www.google.com/maps?f=q&q={{filtered[i].code}}"><button class="btn btn-primary dropdown-toggle">
-                    Google Maps
-                  </button></a>
+                <!-- http://zipwho.com/?zip=77546&city=&filters=--_--_--_--&state=&mode=zip -->
+                <a target="_blank" href="https://www.google.com/maps?f=q&q={{filtered[i].code}}">
+                  <button class="btn btn-primary dropdown-toggle">
+                  Maps
+                </button>
+                </a>
+                <a target="_blank" href="http://zipwho.com/?zip={{filtered[i].code}}&city=&filters=--_--_--_--&state=&mode=zip">
+                  <button class="btn btn-primary dropdown-toggle">
+                  ZipWho
+                  </button>
+                </a>
                   <a target="_blank" href="http://www.city-data.com/zips/{{filtered[i].code}}.html"><button class="btn btn-primary dropdown-toggle">
                     City Data
                   </button></a>
                 </div>
+                <div class="btn-group">
+
               <!--# State	 code	 name	Long	 Area	 Number	 Latitude	 Longitude  -->
-              <button class="btn btn-success" ng-show="loading.indexOf(filtered[i].code) === -1" ng-click="set(filtered[i].code); getCenter(filtered[i]);">
+              <button class="btn btn-success col-sm-12" ng-show="loading.indexOf(filtered[i].code) === -1" ng-click="set(filtered[i].code); getCenter(filtered[i]);">
                 Add
               </button>
-              <button class="btn btn-danger" ng-show="loading.indexOf(filtered[i].code) !== -1" ng-click="set(filtered[i].code); getCenter(filtered[i]);">
+
+              <button class="btn btn-danger col-sm-12" ng-show="loading.indexOf(filtered[i].code) !== -1" ng-click="set(filtered[i].code); getCenter(filtered[i]);">
                 Remove
               </button>
+              <div ng-show="unhide"> area </div>
+            </div>
             </md-card>
 
           </div>

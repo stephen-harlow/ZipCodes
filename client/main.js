@@ -1,6 +1,6 @@
 // require('reset.less');
 console.log("Main");
-var app = angular.module('app', ['matchmedia-ng', 'uiGmapgoogle-maps', 'ngRoute', 'autocomplete', 'infinite-scroll', 'ui.select', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module('app', ['angularResizable', 'angular.filter', 'ngMaterial', 'matchmedia-ng', 'uiGmapgoogle-maps', 'ngRoute', 'autocomplete', 'infinite-scroll', 'ui.select', 'ngSanitize', 'ui.bootstrap']);
 app.config(function($locationProvider) {
   $locationProvider
   .html5Mode({
@@ -28,6 +28,22 @@ app.filter('emptyFilter', function() {
     });
     return filteredArray;
   };
+});
+app.filter('search', function() {
+  return function(items, str) {
+    if(str == '') return items;
+
+    var filtered = [];
+    var rgx = new RegExp(str, 'gi');
+
+    angular.forEach(items, function(item) {
+      item.points = (JSON.stringify(item).match(rgx) || []).length;
+
+      if(item.points > 0) filtered.push(item);
+    });
+
+    return filtered;
+  }
 });
 app.config(function($routeProvider) {
   $routeProvider
