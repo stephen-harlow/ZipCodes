@@ -1,0 +1,10 @@
+{
+  "name": "vertical-resizer",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-css": "^0.5.4"
+  },
+  "dependencies": {}
+}

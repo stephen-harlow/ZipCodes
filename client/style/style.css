@@ -1,4 +1,23 @@
 @CHARSET "UTF-8";
+.fess { border:1px solid red; }
+.box {
+  width: 200px;
+  height: 200px;
+  line-height: 200px;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  background: -webkit-linear-gradient(red, #ccc); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(red, #ccc); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(red, #ccc); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(red, #ccc); /* Standard syntax */
+}
+.sliderdemoBasicUsage input[type="number"] {
+  text-align: center;
+  padding-left: 10px; }
+
+
+
 .block {
     float: left;
     min-width: 100px;
@@ -75,7 +94,7 @@ form.tab-form-demo .tab-pane {
     margin: 20px 20px;
 }
 .angular-google-map-container{
-  height: 300px;
+  min-height: 300px;
 }
 /*.angular-google-map-container {
   position: absolute;

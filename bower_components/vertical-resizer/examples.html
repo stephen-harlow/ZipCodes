@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html data-ng-app="examplesApp">
+<head>
+    <title>Examples</title>
+
+    <link rel="stylesheet" href="vertical-resizer.css" />
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="vertical-resizer.js"></script>
+    
+    <style>
+        .example-div {
+            background-color: #ffdbdb;
+            padding: 10px;
+            height: 80px;
+        }
+    
+        .custom-resizer {
+            background-color: #983b59; 
+            margin-bottom: 18px;
+            cursor: ns-resize;
+        }
+
+        .custom-resizer:hover {
+            background-color: #ff6600;
+        }
+    </style>
+    
+    <script>
+        angular.module('examplesApp', ['verticalResizer']);
+
+        angular.module('examplesApp').controller('mainController', ['$scope', function ($scope) {
+            
+        }]);
+    </script>
+</head>
+
+<body ng-controller="mainController">
+
+    <h1>Examples</h1>
+
+    <h2>1. Resizable div, without height restrictions</h2>
+
+    <div id="div1" class="example-div"><p>I'm a resizable div</p></div>
+    <vertical-resizer target-selector="#div1"></vertical-resizer>
+    
+    <h2>2. Resizable div, with height restrictions</h2>
+
+    <div id="div2" class="example-div"><p>I'm a resizable div</p></div>
+    <vertical-resizer target-min-height="50px" target-max-height="150px" target-selector="#div2"></vertical-resizer>
+    
+    <h2>3. Resizer custom class and inline style</h2>
+
+    <div id="div3" class="example-div"><p>I'm a resizable div</p></div>
+    <vertical-resizer class="custom-resizer" style="height: 20px;" target-min-height="50px" target-selector="#div3"></vertical-resizer>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "vertical-resizer",
+  "authors": [
+    "manger.cl"
+  ],
+  "main": [
+    "./vertical-resizer.js",
+    "./vertical-resizer.css"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "*"
+  },
+  "homepage": "https://github.com/germanger/angular-vertical-resizer",
+  "_release": "73dd34bd93",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "73dd34bd931e05579348cd21103cf14ff6b7c594"
+  },
+  "_source": "git://github.com/germanger/angular-vertical-resizer.git",
+  "_target": "*",
+  "_originalSource": "germanger/angular-vertical-resizer",
+  "_direct": true
+}

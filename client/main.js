@@ -1,6 +1,6 @@
 // require('reset.less');
 console.log("Main");
-var app = angular.module('app', ['angularResizable', 'angular.filter', 'ngMaterial', 'matchmedia-ng', 'uiGmapgoogle-maps', 'ngRoute', 'autocomplete', 'infinite-scroll', 'ui.select', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module('app', ['verticalResizer', 'angularResizable', 'angular.filter', 'ngMaterial', 'matchmedia-ng', 'uiGmapgoogle-maps', 'ngRoute', 'autocomplete', 'infinite-scroll', 'ui.select', 'ngSanitize', 'ui.bootstrap']);
 app.config(function($locationProvider) {
   $locationProvider
   .html5Mode({
@@ -8,6 +8,7 @@ app.config(function($locationProvider) {
     requireBase: false // I removed this to keep it simple, but you can set your own base url
   });
 });
+
 app.directive("scroll", function ($window) {
   return function(scope, element, attrs) {
     angular.element($window).bind("scroll", function() {
@@ -56,23 +57,50 @@ app.config(function($routeProvider) {
     }})
     .otherwise('/');
   });
-  console.log("Configed");
-  app.service('MyService', function($http) {
-    var myData = null;
+console.log("Configed");
+app.service('MyService', function($http) {
+  var myData = null;
 
-    var promise = $http.get('little.json').success(function (data) {
+  var promise = $http.get('little.json').success(function (data) {
+    myData = data;
+  });
+
+  return {
+    promise:promise,
+    setData: function (data) {
       myData = data;
-    });
+    },
+    doStuff: function () {
+      return myData;//.getSomeData();
+    }
+  };
+});
+  app.directive('resize', function ($window) {
+    return function (scope, element, attr) {
 
-    return {
-      promise:promise,
-      setData: function (data) {
-        myData = data;
-      },
-      doStuff: function () {
-        return myData;//.getSomeData();
-      }
-    };
+      var w = angular.element($window);
+      scope.$watch(function () {
+        return {
+          'h': $(window).height(),
+          'w': $(window).width()
+        };
+      }, function (newValue, oldValue) {
+        scope.windowHeight = newValue.h;
+        scope.windowWidth = newValue.w;
+
+        scope.resizeWithOffset = function (offsetH) {
+          scope.$eval(attr.notifier);
+          return {
+            'height': (newValue.h - offsetH) + 'px'
+          };
+        };
+
+      }, true);
+
+      w.bind('resize', function () {
+        scope.$apply();
+      });
+    }
   });
 
   function escapeRegExp(string){

@@ -4,16 +4,49 @@
 // var retrievedObject = localStorage.getItem('testObject');
 
 angular.module('app').controller('test', ['$scope', '$http', '$window', '$filter', 'MyService', 'matchmedia',
-function($scope, $http, $filter, window, MyService, matchmedia){
-  $scope.showExp = true;
+function($scope, $http, $filter, $window, MyService, matchmedia, $element){
+  $scope.showExp = false;
+  $scope.$watch('windowHeight', function() {
+    $scope.changethings();
+  });
+ $scope.$watch('windowWidth', function() {
+    $scope.changethings();
+  });
+  $scope.$watch('showMap', function() {
+    $scope.changethings();
+  });
+
+  $scope.color = {
+    red: 300
+  };
+  $scope.changethings = function () {
+
+    // console.log(Math.round(($scope.windowWidth-dif)/270));
+
+    $scope.limit = $scope.windowHeight-150;
+    if($scope.limit < $scope.color.red){
+      $scope.color.red = $scope.limit -10;
+    }
+
+
+    if(!$scope.showMap){
+      $scope.hut = { height: (0) + 'px' };
+      $scope.listed = { height: ($scope.limit) + 'px' };
+    }
+    else{
+      $scope.hut = { height: ($scope.color.red) + 'px' };
+      $scope.listheight = $scope.limit - $scope.color.red - 65;
+      $scope.listed = { height: ($scope.listheight) + 'px' };
+    }
+  };
+  $scope.$watch('color.red', function() {
+    $scope.changethings();
+  });
+
   // in controller
   $scope.override = false;
   $scope.showMap = true;
-  $scope.$watch('showMap', function() {
-      $scope.mine = $scope.showMap ?  $(window).height()/3.5-25: $(window).height()-50;
 
-        // alert('hey, myVar has changed!');
-    });
   $scope.randomMarkers = [];
   $scope.loading = [];
   if (localStorage.getItem("loading") !== null) {
@@ -59,6 +92,9 @@ function($scope, $http, $filter, window, MyService, matchmedia){
     if($scope.colum == 2){
       return [m, m+1];
     }
+    else if ($scope.colum == 1){
+      return [m];
+    }
     else{
       return [m, m+1, m+2];
     }
@@ -75,20 +111,14 @@ function($scope, $http, $filter, window, MyService, matchmedia){
       return [m, m+1, m+2];
     }
   };
-  $scope.init = function () {
-
-    // check if there is query in url
-    // and fire search in case its value is not empty
-  };
-
 
   $scope.flip = function () {
     console.log("flip")
     if($scope.showMap){
+
       $scope.showMap = false;
       $scope.theImage = "loads/map.png";
       $scope.override = true;
-
     }
     else{
       $scope.override = true;
@@ -113,6 +143,8 @@ function($scope, $http, $filter, window, MyService, matchmedia){
   $scope.theImage = "loads/list.png";
 
   var unDesk = matchmedia.onDesktop( function(mediaQueryList){
+    $scope.changethings();
+    $scope.iframeHeight = $(window).height();
 
     $scope.isDesktop = mediaQueryList.matches;
     if($scope.isDesktop){
@@ -152,7 +184,7 @@ function($scope, $http, $filter, window, MyService, matchmedia){
         $scope.theImage = "loads/map.png";
         $scope.showMap = false;
       }
-      $scope.colum = 2;
+      $scope.colum = 1;
       $scope.shorter = 1;
 
     }
